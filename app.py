@@ -3,11 +3,13 @@ import json
 from groq import Groq
 import sqlparse
 from streamlit_ace import st_ace
+import os
 
 
 st.set_page_config(page_title="SQL Optimizer", layout="wide")
 
-client = Groq(api_key="GROQ_API_KEY_HERE")  # API KEY Insert Here -------------------------------------------
+# client = Groq(api_key="GROQ_API_KEY_HERE")
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))     # API KEY Insert Here -------------------------------------------
 
 # ------------------ UI ------------------
 st.title("⚡ SQL Query Optimizer")
