@@ -28,22 +28,56 @@ optimize_btn = st.button("Optimize Query")
 
 # ------------------ FUNCTION ---------------------------------
 def optimize_sql(user_query):
-    prompt = f"""You are an expert SQL optimizer.
-Analyze the SQL query below and return ONLY a raw JSON object (no markdown, no backticks, no extra text).
-streetly you not assume column names, if need then SELECT * then return SELECT column 1, column 2, ... 
-if original query and opimize query is same then return original query and set already_optimal to true
-original query in not change then return that is allready optimal and set already_optimal to true
-if you opimize query is resend same as original query then return that is allready optimal and set already_optimal to true
+#     prompt = f"""You are an expert SQL optimizer.
+# Analyze the SQL query below and return ONLY a raw JSON object (no markdown, no backticks, no extra text).
+# streetly you not assume column names, if need then SELECT * then return SELECT column 1, column 2, ... 
+# if original query and opimize query is same then return original query and set already_optimal to true
+# original query in not change then return that is allready optimal and set already_optimal to true
+# if you opimize query is resend same as original query then return that is allready optimal and set already_optimal to true
 
-JSON format:
+# JSON format:
+# {{
+#   "optimized_query": "<improved SQL, or original if already optimal>",
+#   "issues": ["<issue 1>", "<issue 2>"],
+#   "explanation": ["<step 1>", "<step 2>"],
+#   "already_optimal": true,
+#   "without_optimize_query_time": 100,
+#   "with_optimize_query_time": 50
+# }}
+
+# SQL Query:
+# {user_query}
+# """
+
+    prompt = f"""
+You are an expert SQL optimizer.
+
+Your task:
+Analyze the given SQL query and return ONLY a valid raw JSON object.
+Do NOT include markdown, backticks, explanations outside JSON, or extra text.
+if user send SELECT c.column1, c.column2, ... this is optimal query and return original query and set already_optimal to true
+
+STRICT RULES:
+1. Do NOT assume column names. If unknown, use: SELECT column1, column2, ...
+2. If the query is already optimal, return the ORIGINAL query.
+3. If your optimized query is the SAME as the original, mark already_optimal = true.
+4. Do NOT modify logic unnecessarily.
+5. Output MUST be valid JSON only.
+
+JSON FORMAT:
 {{
-  "optimized_query": "<improved SQL, or original if already optimal>",
-  "issues": ["<issue 1>", "<issue 2>"],
-  "explanation": ["<step 1>", "<step 2>"],
-  "already_optimal": true,
-  "without_optimize_query_time": 100,
-  "with_optimize_query_time": 50
+  "optimized_query": "<optimized or original query>",
+  "issues": ["issue1", "issue2"],
+  "explanation": ["step1", "step2"],
+  "already_optimal": true/false,
+  "without_optimize_query_time": <number>,
+  "with_optimize_query_time": <number>
 }}
+
+IMPORTANT:
+- "already_optimal" must be true ONLY if no changes are needed.
+- Query times should be estimated numbers (e.g., 120, 60).
+- Keep explanations short and clear.
 
 SQL Query:
 {user_query}
