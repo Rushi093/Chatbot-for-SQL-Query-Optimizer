@@ -30,9 +30,10 @@ optimize_btn = st.button("Optimize Query")
 def optimize_sql(user_query):
     prompt = f"""You are an expert SQL optimizer.
 Analyze the SQL query below and return ONLY a raw JSON object (no markdown, no backticks, no extra text).
-if original query in SELECT * then return SELECT column 1, column 2, ... 
+you not assume column names, if need then SELECT * then return SELECT column 1, column 2, ... 
 if original query and opimize query is same then return original query and set already_optimal to true
 original query in not change then return that is allready optimal and set already_optimal to true
+if you opimize query is resend same as original query then return that is allready optimal and set already_optimal to true
 
 JSON format:
 {{
