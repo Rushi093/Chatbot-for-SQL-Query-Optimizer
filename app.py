@@ -78,6 +78,7 @@ IMPORTANT:
 - "already_optimal" must be true ONLY if no changes are needed.
 - Query times should be estimated numbers (e.g., 120, 60).
 - Keep explanations short and clear.
+- if original query is already optimal that without_optimize_query_time and with_optimize_query_time must be same and not return 0.
 
 SQL Query:
 {user_query}
@@ -93,7 +94,7 @@ SQL Query:
 
     # Safe JSON parsing
     try:
-        st.write(json.loads(content))
+        # st.write(json.loads(content))
         return json.loads(content)
     except:
         st.error("❌ Failed to parse response. Raw output below:")
