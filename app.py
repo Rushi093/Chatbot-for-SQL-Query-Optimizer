@@ -93,6 +93,7 @@ SQL Query:
 
     # Safe JSON parsing
     try:
+        st.write(json.loads(content))
         return json.loads(content)
     except:
         st.error("❌ Failed to parse response. Raw output below:")
