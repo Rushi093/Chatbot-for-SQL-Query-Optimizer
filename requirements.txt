@@ -2,3 +2,13 @@ streamlit
 groq
 sqlparse
 streamlit-ace
+config
+utils
+components
+optimizer
+ui
+utils
+json
+re
+pandas
+duckdb
