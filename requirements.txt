@@ -6,3 +6,4 @@ json
 re
 pandas
 duckdb
+os
